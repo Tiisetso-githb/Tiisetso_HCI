@@ -1,0 +1,90 @@
+
+{% block content %}
+<head>
+    <style>
+        /* Table styling */
+        table {
+            width: 70%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        /* Header and Cell Styling */
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #DAE1F5;  /* Add border between columns */
+        }
+
+        /* Header Styling */
+        th {
+            background-color: #F0F2FB;
+            font-weight: bold;
+        }
+
+        /* Row Styling */
+        td {
+            background-color: #fff;
+        }
+
+        /* Alternating row background for better readability */
+        tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        /* Optional: Adding borders between the columns */
+        table td, table th {
+            border-right: 1px solid #DAE1F5; /* This will add lines between columns */
+        }
+
+        /* Remove the right border of the last column */
+        table td:last-child, table th:last-child {
+            border-right: none;
+        }
+    </style>
+
+
+    <title>Student Reminder</title>
+</head>
+<body>
+    <h1> Reminders </h1>
+
+    {% if user.is_authenticated %}
+        <p>Welcome, {{ user.username }}</p>
+        <a href="{% url 'base:create_reminder' %}">Create Reminder</a>
+    {% endif %}
+
+    <ul>
+        {% if reminders %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Time</th>
+                        <th>Reminder</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for reminder in reminders %}
+                        <tr>
+                            <td>{{ reminder.created_at }}</td>
+                            <td>{{ reminder.title }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No reminders yet.</p>
+        {% endif %}
+    </ul>
+
+    {% if messages %}
+        <div>
+            {% for message in messages %}
+                <p style="color: green;">{{ message }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <p><a href="{% url 'base:login' %}">Signout</a></p>
+</body>
+{% endblock content %}
